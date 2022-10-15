@@ -35,8 +35,11 @@ int	ft_atoi(const char *str)
 void action_philo(char *message, t_arg* rules, int phid)
 {
     pthread_mutex_lock(&rules->writing);
-    printf("%lld",time_diff(rules->first_time,timestamp()));
-    printf(" %d ",phid+1);
-    printf("%s",message);
+    if(rules->died)
+    {
+        printf("%s%lld%s",RED,time_diff(rules->first_time,timestamp()),END);
+        printf("%s %d %s",YELLOW,phid+1,END);
+        printf("%s",message);
+    }
     pthread_mutex_unlock(&rules->writing);
 }

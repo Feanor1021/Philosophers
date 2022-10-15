@@ -27,11 +27,12 @@ typedef struct rules
     int sleep_time;
     int must_eat;
     long long first_time;
+    //flags
     int	died;
 	int	all_ate;
+    int i;
 	pthread_mutex_t	*forks;
     pthread_mutex_t writing;
-    pthread_mutex_t die_check;
     t_philo *philosophers;
 }t_arg;
 
@@ -42,27 +43,32 @@ typedef struct rules
 # define END "\033[0m"
 # define BLUE "\e[0;34m"
 
+//Resource handler functions
+int handle_resources(t_arg *rules);
+void *resources(void *philosophers);
+int eat_spagetti(t_philo *ph);
+void *resources(void *philosophers);
+void destroy_all(t_arg *rules);
+void dead_checker(t_arg *rules);
+
+//initilaziation
+int     teach_ph(t_arg *rules);
+int     init_mutexes(t_arg *rules);
+int     set_rules(t_arg *rules, char** argv, int argc);
+int     check_args(t_arg* rules,int argc);
+
 //utils
 int	ft_atoi(const char *str);
 void action_philo(char *message, t_arg* rules, int phid);
-
-//initilaziation
-int teach_ph(t_arg *rules);
-int init_mutexes(t_arg *rules);
-int set_rules(t_arg *rules,char** argv, int argc);
-int check_args(t_arg* rules,int argc);
 
 //time functions
 long long	time_diff(long long past, long long pres);
 long long	timestamp(void);
 void wait_sleep(long long wait_time,t_arg *rules);
-void *resources(void *philosophers);
-
-//Resource handler functions
-int handle_resources(t_arg *rules);
 
 //screens
 void start_screen(void);
+void die_screen();
 
 //errors
 int error_message(char *arg);

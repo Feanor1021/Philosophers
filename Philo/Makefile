@@ -6,7 +6,7 @@
 #    By: fyardimc <fyardimc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/14 16:12:33 by fyardimc          #+#    #+#              #
-#    Updated: 2022/08/28 16:39:00 by fyardimc         ###   ########.fr        #
+#    Updated: 2022/10/15 22:01:22 by fyardimc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@
 
 NAME :=	philo
 
-SRCS :=	 src_man/main.c src_man/philo_utils.c src_man/control_and_create.c src_man/handle_resources.c\
-			src_man/time.c
+SRCS :=	 src_man/main.c src_man/philo_utils.c src_man/control_init.c src_man/resource_handler.c\
+			src_man/time_screens.c
 
 OBJ := $(SRCS:%.c=%.o)
 
@@ -24,7 +24,7 @@ OBJ := $(SRCS:%.c=%.o)
 #OBJ_BONUS := 
 
 CC		 = @gcc
-CFLAGS	 =  -I ./include -pthread
+CFLAGS	 = -Wall -Wextra -Werror -I ./include -pthread
 
 all: $(NAME)
 
