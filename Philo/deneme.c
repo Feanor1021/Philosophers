@@ -26,8 +26,11 @@ long long	time_diff(long long past, long long pres)
 int main(int argc, char *argv[])
 {
     time_t now=time(NULL);    printf("%ld",now);
-    printf("%lld",timestamp());
-    printf("%lld",time_diff(timestamp(),timestamp()));
+    time_t i;
+    printf("%lld",i=timestamp());
+    usleep(5000);
+
+    printf("%f",difftime(i,(time_t)timestamp));
 
     return 0;
 }

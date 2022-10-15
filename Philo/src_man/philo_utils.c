@@ -2,7 +2,7 @@
 
 int error_message(char *arg)
 {
-    ft_printf("%s%s%s",RED,arg,END);
+    printf("%s%s%s",RED,arg,END);
     return -1;
 }
 
@@ -27,7 +27,16 @@ int	ft_atoi(const char *str)
         else
             return -1;
 	}
-    if (res >= 0 && res <= 2147483647)
-	    return max_min_cntrl(num);
+    if (num >= 0 && num <= 2147483647)
+	    return num;
     return -1;
+}
+
+void action_philo(char *message, t_arg* rules, int phid)
+{
+    pthread_mutex_lock(&rules->writing);
+    printf("%lld",time_diff(rules->first_time,timestamp()));
+    printf(" %d ",phid+1);
+    printf("%s",message);
+    pthread_mutex_unlock(&rules->writing);
 }

@@ -4,9 +4,8 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/time.h>
 #include <stdlib.h>
-#include <../ft_printf/include/ft_printf.h>
-
 
 typedef struct philo
 {
@@ -15,7 +14,7 @@ typedef struct philo
     int right_hand;
     int meal_count;
     long long last_meal_time;
-    pthread_mutex_t *philos;
+    pthread_t philos;
     struct rules *rules;
 }t_philo;
 
@@ -31,6 +30,8 @@ typedef struct rules
     int	died;
 	int	all_ate;
 	pthread_mutex_t	*forks;
+    pthread_mutex_t writing;
+    pthread_mutex_t die_check;
     t_philo *philosophers;
 }t_arg;
 
@@ -43,8 +44,22 @@ typedef struct rules
 
 //utils
 int	ft_atoi(const char *str);
+void action_philo(char *message, t_arg* rules, int phid);
+
+//initilaziation
+int teach_ph(t_arg *rules);
+int init_mutexes(t_arg *rules);
 int set_rules(t_arg *rules,char** argv, int argc);
 int check_args(t_arg* rules,int argc);
+
+//time functions
+long long	time_diff(long long past, long long pres);
+long long	timestamp(void);
+void wait_sleep(long long wait_time,t_arg *rules);
+void *resources(void *philosophers);
+
+//Resource handler functions
+int handle_resources(t_arg *rules);
 
 //screens
 void start_screen(void);

@@ -1,5 +1,43 @@
 #include "philo.h"
 
+int init_mutexes(t_arg *rules)
+{
+    int i;
+
+    i = 0;
+    rules->philosophers=(t_philo*)malloc(sizeof(t_philo)*rules->philo_num);
+    rules->forks=(pthread_mutex_t*)malloc(sizeof(pthread_mutex_t)*rules->philo_num);
+    while(i<rules->philo_num)
+    {
+        if(pthread_mutex_init(&(rules->forks[i]),NULL))
+            return -1;
+        i++;
+    }
+    if(pthread_mutex_init(&rules->die_check,NULL))
+        return -1;
+    if(pthread_mutex_init(&rules->writing,NULL))
+        return -1;
+    return 0;
+}
+
+int teach_ph(t_arg *rules)
+{
+    int i;
+
+    i = 0;
+    while(i<rules->philo_num)
+    {
+        (rules->philosophers+i)->id=i;
+        (rules->philosophers+i)->right_hand=(i+1)%rules->philo_num;
+        (rules->philosophers+i)->left_hand=i;
+        (rules->philosophers+i)->last_meal_time=0;
+        (rules->philosophers+i)->meal_count=0;
+        (rules->philosophers+i)->rules=rules;
+        i++;
+    }
+    return 0;
+}
+
 int check_args(t_arg* rules,int argc)
 {
     if(argc == 5){
@@ -19,11 +57,17 @@ int set_rules(t_arg *rules,char** argv,int argc)
     rules->die_time=ft_atoi(argv[2]);
     rules->eat_time=ft_atoi(argv[3]);
     rules->sleep_time=ft_atoi(argv[4]);
+    rules->died=1;
+    rules->all_ate=1;
     if(argc == 6)
         rules->must_eat=ft_atoi(argv[5]);
     else
         rules->must_eat=-1;
     if(check_args(rules,argc))
         return error_message("Wrong argument format!!!");
+    if(init_mutexes(rules))
+        return error_message("Can't initilize mutexes!!!");
+    if(teach_ph(rules))
+        return error_message("Philosophers don't want to eat spagetti :( they chose to die...");
     return 0;
 }

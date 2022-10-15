@@ -14,7 +14,8 @@
 
 NAME :=	philo
 
-SRCS :=	 src_man/main.c src_man/philo_utils.c src_man/control_and_create.c
+SRCS :=	 src_man/main.c src_man/philo_utils.c src_man/control_and_create.c src_man/handle_resources.c\
+			src_man/time.c
 
 OBJ := $(SRCS:%.c=%.o)
 
@@ -23,31 +24,28 @@ OBJ := $(SRCS:%.c=%.o)
 #OBJ_BONUS := 
 
 CC		 = @gcc
-CFLAGS	 =  -I ./include
+CFLAGS	 =  -I ./include -pthread
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@make -C ./ft_printf
-	$(CC) $(CFLAGS) $(OBJ) ./ft_printf/libftprintf.a -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 	@printf "[\e[32mSUCCESS philosophers mandatory ready✅\e[0m]\n"
 
 #$(NAME_BONUS): $(MAIN_BONUS) $(OBJ_BONUS)
-#	@make -C ./ft_printf
+#	@make -C ./printf
 #	@make -C ./mlx
-#	$(CC) $(CFLAGS) $(OBJ_BONUS) -framework OpenGL -framework AppKit mlx/libmlx.a ./ft_printf/libftprintf.a $(MAIN_BONUS) -o $(NAME_BONUS) -ggdb
+#	$(CC) $(CFLAGS) $(OBJ_BONUS) -framework OpenGL -framework AppKit mlx/libmlx.a ./printf/libftprintf.a $(MAIN_BONUS) -o $(NAME_BONUS) -ggdb
 #	@printf "[\e[32mSUCCESS so_long bonus ready✅\e[0m]\n"
 
 #bonus: $(NAME_BONUS)
 	
 clean:
 	@rm -f src_man/*.o
-	@make -C ./ft_printf clean
 	@printf "[\e[33mObject files are cleaned🚽\e[0m]\n"
 
 fclean: clean
 	@rm -f $(NAME)
-	@make -C ./ft_printf fclean
 	@printf "[\e[33mEverything cleaned🗑\e[0m ]\n"
 re: fclean all
 
