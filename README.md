@@ -18,6 +18,5 @@ To run the Philosophers simulation, simply clone the repository and run the `mak
 
 ### Screenshot
 
-Mandatory:
 ![man](Capture.PNG)
 
